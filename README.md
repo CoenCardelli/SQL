@@ -159,18 +159,13 @@ The database supports tracking of league activity, draft history, player perform
 **Managerial Justification:** League managers and users want to know which players are the most consistently valuable. This query helps identify which players to target in trades or on the waiver wire.
 
 ```sql
-DELIMITER //
-CREATE PROCEDURE TP_Q1()
-BEGIN
-    SELECT p.playerName, p.position, p.nflTeam,
-           AVG(ws.pointsScored) AS avgPoints
-    FROM Player p
-    JOIN WeeklyStats ws ON p.playerID = ws.playerID
-    GROUP BY p.playerID, p.playerName, p.position, p.nflTeam
-    ORDER BY avgPoints DESC
-    LIMIT 5;
-END //
-DELIMITER ;
+SELECT p.playerName, p.position, p.nflTeam,
+       AVG(ws.pointsScored) AS avgPoints
+FROM Player p
+JOIN WeeklyStats ws ON p.playerID = ws.playerID
+GROUP BY p.playerID, p.playerName, p.position, p.nflTeam
+ORDER BY avgPoints DESC
+LIMIT 5;
 ```
 
 **Result:** *(paste query output here)*
@@ -184,18 +179,16 @@ DELIMITER ;
 **Managerial Justification:** Highly active teams may signal engaged users or desperate roster management. Commissioners can use this to monitor trade activity and flag potential abuse.
 
 ```sql
-DELIMITER //
-CREATE PROCEDURE TP_Q2()
-BEGIN
-    SELECT t.teamName, u.firstName, u.lastName, COUNT(tr.transactionID) AS totalTransactions
-    FROM Team t
-    JOIN User u ON t.userID = u.userID
-    JOIN Transaction tr ON t.teamID = tr.teamID
-    GROUP BY t.teamID, t.teamName, u.firstName, u.lastName
-    HAVING COUNT(tr.transactionID) > 3
-    ORDER BY totalTransactions DESC;
-END //
-DELIMITER ;
+SELECT Team.teamName,
+       User.firstName,
+       User.lastName,
+       COUNT(Transaction.transactionID) AS totalTransactions
+FROM Team
+JOIN User ON Team.userID = User.userID
+JOIN Transaction ON Team.teamID = Transaction.teamID
+GROUP BY Team.teamID, Team.teamName, User.firstName, User.lastName
+HAVING COUNT(Transaction.transactionID) > 3
+ORDER BY totalTransactions DESC;
 ```
 
 **Result:** *(paste query output here)*
@@ -209,22 +202,20 @@ DELIMITER ;
 **Managerial Justification:** Helps managers evaluate draft efficiency — if a team consistently drafts underperforming players, it signals poor draft strategy and could explain losing records.
 
 ```sql
-DELIMITER //
-CREATE PROCEDURE TP_Q3()
-BEGIN
-    SELECT p.playerName, p.position, t.teamName,
-           AVG(ws.pointsScored) AS avgPoints
-    FROM DraftPick dp
-    JOIN Player p ON dp.playerID = p.playerID
-    JOIN Team t ON dp.teamID = t.teamID
-    JOIN WeeklyStats ws ON p.playerID = ws.playerID
-    GROUP BY p.playerID, p.playerName, p.position, t.teamName
-    HAVING AVG(ws.pointsScored) < (
-        SELECT AVG(pointsScored) FROM WeeklyStats
-    )
-    ORDER BY avgPoints ASC;
-END //
-DELIMITER ;
+SELECT Player.playerName,
+       Player.position,
+       Team.teamName,
+       AVG(WeeklyStats.pointsScored) AS avgPoints
+FROM DraftPick
+JOIN Player ON DraftPick.playerID = Player.playerID
+JOIN Team ON DraftPick.teamID = Team.teamID
+JOIN WeeklyStats ON Player.playerID = WeeklyStats.playerID
+GROUP BY Player.playerID, Player.playerName, Player.position, Team.teamName
+HAVING AVG(WeeklyStats.pointsScored) < (
+    SELECT AVG(pointsScored)
+    FROM WeeklyStats
+)
+ORDER BY avgPoints ASC;
 ```
 
 **Result:** *(paste query output here)*
@@ -238,19 +229,15 @@ DELIMITER ;
 **Managerial Justification:** This is the core metric for determining weekly game outcomes. Managers use this data to compare performance and adjust rosters heading into the next week.
 
 ```sql
-DELIMITER //
-CREATE PROCEDURE TP_Q4()
-BEGIN
-    SELECT t.teamName, SUM(ws.pointsScored) AS totalPoints
-    FROM Team t
-    JOIN DraftPick dp ON t.teamID = dp.teamID
-    JOIN WeeklyStats ws ON dp.playerID = ws.playerID
-    WHERE ws.weekNumber = 5
-    AND ws.pointsScored > 0
-    GROUP BY t.teamID, t.teamName
-    ORDER BY totalPoints DESC;
-END //
-DELIMITER ;
+SELECT Team.teamName,
+       SUM(WeeklyStats.pointsScored) AS totalPoints
+FROM Team
+JOIN DraftPick ON Team.teamID = DraftPick.teamID
+JOIN WeeklyStats ON DraftPick.playerID = WeeklyStats.playerID
+WHERE WeeklyStats.weekNumber = 5
+  AND WeeklyStats.pointsScored > 0
+GROUP BY Team.teamID, Team.teamName
+ORDER BY totalPoints DESC;
 ```
 
 **Result:** *(paste query output here)*
@@ -264,17 +251,17 @@ DELIMITER ;
 **Managerial Justification:** Inactive teams hurt league competitiveness. Commissioners can use this to identify disengaged users and reach out to improve participation.
 
 ```sql
-DELIMITER //
-CREATE PROCEDURE TP_Q5()
-BEGIN
-    SELECT t.teamName, u.firstName, u.lastName, u.email
-    FROM Team t
-    JOIN User u ON t.userID = u.userID
-    WHERE NOT EXISTS (
-        SELECT 1 FROM Transaction tr WHERE tr.teamID = t.teamID
-    );
-END //
-DELIMITER ;
+SELECT Team.teamName,
+       User.firstName,
+       User.lastName,
+       User.email
+FROM Team
+JOIN User ON Team.userID = User.userID
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM Transaction
+    WHERE Transaction.teamID = Team.teamID
+);
 ```
 
 **Result:** *(paste query output here)*
@@ -288,20 +275,27 @@ DELIMITER ;
 **Managerial Justification:** Standings are the primary measure of success in a fantasy league. This query powers leaderboards and determines playoff seeding.
 
 ```sql
-DELIMITER //
-CREATE PROCEDURE TP_Q6()
-BEGIN
-    SELECT t.teamName,
-           COUNT(CASE WHEN g.winnerTeamID = t.teamID THEN 1 END) AS wins,
-           COUNT(CASE WHEN g.winnerTeamID != t.teamID 
-                      AND (g.homeTeamID = t.teamID OR g.awayTeamID = t.teamID) THEN 1 END) AS losses
-    FROM Team t
-    JOIN Game g ON t.teamID = g.homeTeamID OR t.teamID = g.awayTeamID
-    WHERE t.leagueID = (SELECT leagueID FROM League LIMIT 1)
-    GROUP BY t.teamID, t.teamName
-    ORDER BY wins DESC;
-END //
-DELIMITER ;
+SELECT Team.teamName,
+       COUNT(CASE 
+                WHEN Game.winnerTeamID = Team.teamID THEN 1 
+            END) AS wins,
+       COUNT(CASE 
+                WHEN Game.winnerTeamID != Team.teamID
+                     AND (Game.homeTeamID = Team.teamID 
+                          OR Game.awayTeamID = Team.teamID)
+                THEN 1 
+            END) AS losses
+FROM Team
+JOIN Game 
+  ON Team.teamID = Game.homeTeamID 
+  OR Team.teamID = Game.awayTeamID
+WHERE Team.leagueID = (
+    SELECT League.leagueID 
+    FROM League 
+    LIMIT 1
+)
+GROUP BY Team.teamID, Team.teamName
+ORDER BY wins DESC;
 ```
 
 **Result:** *(paste query output here)*
@@ -315,19 +309,14 @@ DELIMITER ;
 **Managerial Justification:** Reveals whether early round picks justify their draft position. If late-round picks outperform early ones, it signals poor draft strategy across the league — valuable insight for future drafts.
 
 ```sql
-DELIMITER //
-CREATE PROCEDURE TP_Q7()
-BEGIN
-    SELECT dp.roundNumber,
-           COUNT(DISTINCT dp.playerID) AS playersDrafted,
-           AVG(ws.pointsScored) AS avgPointsPerRound
-    FROM DraftPick dp
-    JOIN WeeklyStats ws ON dp.playerID = ws.playerID
-    GROUP BY dp.roundNumber
-    HAVING AVG(ws.pointsScored) > 5
-    ORDER BY dp.roundNumber ASC;
-END //
-DELIMITER ;
+SELECT DraftPick.roundNumber,
+       COUNT(DISTINCT DraftPick.playerID) AS playersDrafted,
+       AVG(WeeklyStats.pointsScored) AS avgPointsPerRound
+FROM DraftPick
+JOIN WeeklyStats ON DraftPick.playerID = WeeklyStats.playerID
+GROUP BY DraftPick.roundNumber
+HAVING AVG(WeeklyStats.pointsScored) > 5
+ORDER BY DraftPick.roundNumber ASC;
 ```
 
 **Result:** *(paste query output here)*
@@ -341,19 +330,16 @@ DELIMITER ;
 **Managerial Justification:** Fantasy leagues often score skill positions differently. Filtering by position group lets managers compare position scarcity and depth across the league.
 
 ```sql
-DELIMITER //
-CREATE PROCEDURE TP_Q8()
-BEGIN
-    SELECT playerName, position, nflTeam,
-           AVG(ws.pointsScored) AS avgPoints
-    FROM Player p
-    JOIN WeeklyStats ws ON p.playerID = ws.playerID
-    WHERE p.position REGEXP '^(QB|RB|WR|TE)$'
-    AND ws.pointsScored > 0
-    GROUP BY p.playerID, p.playerName, p.position, p.nflTeam
-    ORDER BY position, avgPoints DESC;
-END //
-DELIMITER ;
+SELECT Player.playerName,
+       Player.position,
+       Player.nflTeam,
+       AVG(WeeklyStats.pointsScored) AS avgPoints
+FROM Player
+JOIN WeeklyStats ON Player.playerID = WeeklyStats.playerID
+WHERE Player.position REGEXP '^(QB|RB|WR|TE)$'
+  AND WeeklyStats.pointsScored > 0
+GROUP BY Player.playerID, Player.playerName, Player.position, Player.nflTeam
+ORDER BY Player.position, avgPoints DESC;
 ```
 
 **Result:** *(paste query output here)*
@@ -367,18 +353,16 @@ DELIMITER ;
 **Managerial Justification:** Power users who manage multiple teams are highly engaged. Identifying them helps platform administrators target premium feature offerings or provide support.
 
 ```sql
-DELIMITER //
-CREATE PROCEDURE TP_Q9()
-BEGIN
-    SELECT u.userID, u.firstName, u.lastName, u.email,
-           COUNT(t.teamID) AS numberOfTeams
-    FROM User u
-    JOIN Team t ON u.userID = t.userID
-    GROUP BY u.userID, u.firstName, u.lastName, u.email
-    HAVING COUNT(t.teamID) > 1
-    ORDER BY numberOfTeams DESC;
-END //
-DELIMITER ;
+SELECT User.userID,
+       User.firstName,
+       User.lastName,
+       User.email,
+       COUNT(Team.teamID) AS numberOfTeams
+FROM User
+JOIN Team ON User.userID = Team.userID
+GROUP BY User.userID, User.firstName, User.lastName, User.email
+HAVING COUNT(Team.teamID) > 1
+ORDER BY numberOfTeams DESC;
 ```
 
 **Result:** *(paste query output here)*
@@ -392,22 +376,23 @@ DELIMITER ;
 **Managerial Justification:** Hot players — those trending above their own baseline — are prime trade targets and waiver wire pickups. This query surfaces players with current upward momentum.
 
 ```sql
-DELIMITER //
-CREATE PROCEDURE TP_Q10()
-BEGIN
-    SELECT p.playerName, p.position, p.nflTeam,
-           ws.weekNumber, ws.pointsScored AS latestWeekPoints
-    FROM Player p
-    JOIN WeeklyStats ws ON p.playerID = ws.playerID
-    WHERE ws.weekNumber = (SELECT MAX(weekNumber) FROM WeeklyStats)
-    AND ws.pointsScored > (
-        SELECT AVG(ws2.pointsScored)
-        FROM WeeklyStats ws2
-        WHERE ws2.playerID = p.playerID
-    )
-    ORDER BY ws.pointsScored DESC;
-END //
-DELIMITER ;
+SELECT Player.playerName,
+       Player.position,
+       Player.nflTeam,
+       WeeklyStats.weekNumber,
+       WeeklyStats.pointsScored AS latestWeekPoints
+FROM Player
+JOIN WeeklyStats ON Player.playerID = WeeklyStats.playerID
+WHERE WeeklyStats.weekNumber = (
+    SELECT MAX(weekNumber)
+    FROM WeeklyStats
+)
+AND WeeklyStats.pointsScored > (
+    SELECT AVG(WeeklyStats2.pointsScored)
+    FROM WeeklyStats WeeklyStats2
+    WHERE WeeklyStats2.playerID = Player.playerID
+)
+ORDER BY WeeklyStats.pointsScored DESC;
 ```
 
 **Result:** *(paste query output here)*
