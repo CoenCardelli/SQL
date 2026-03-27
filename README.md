@@ -1,6 +1,6 @@
 # 🏈 Fantasy Football League Database
 
-**Team Name:** Group [1]
+**Team Name:** Group 1
 
 ## Team Members
 
@@ -35,7 +35,7 @@ The database supports tracking of league activity, draft history, player perform
 
 **Teams** is the central entity — it connects a User to a League via foreign keys `userID` and `leagueID`. Each Team participates in many Games, initiates many Transactions, and makes many DraftPicks (all 1:M).
 
-**Players** represents a real NFL athlete. A Player can appear in many WeeklyStats records (one per week), many DraftPicks (across different leagues/seasons), and many Transactions (all 1:M). Players also have a `teamID` (the NFL team they play for) and a self-referencing `captainID` that can designate a team captain relationship.
+**Players** represents a real NFL athlete. A Player can appear in many WeeklyStats records (one per week), many DraftPicks (across different leagues/seasons), and many Transactions (all 1:M). Players also have a `teamID` (FK to Teams), an `nflTeam` text label storing the real NFL franchise name (e.g., "Chiefs"), and a self-referencing `captainID` that can designate a team captain relationship.
 
 **WeeklyStats** captures a Player's fantasy points for a specific week. Each record is tied to one Player and one week number, and stores `pointsScored`.
 
@@ -92,7 +92,8 @@ The database supports tracking of league activity, draft history, player perform
 | playerID | INT | PK | Unique identifier for each NFL player |
 | playerName | VARCHAR(45) | | Full name of the NFL player |
 | position | VARCHAR(45) | | Player's position (QB, RB, WR, TE, K, DEF) |
-| teamID | INT | FK (Teams) | The NFL team the player is rostered on |
+| nflTeam | VARCHAR(45) | | The real NFL franchise the player plays for (e.g., 'Chiefs') |
+| teamID | INT | FK (Teams) | The fantasy team the player is rostered on |
 | captainID | INT | FK (Players) | Self-referencing key to designate a captain relationship |
 
 ### WeeklyStats
@@ -410,3 +411,4 @@ ORDER BY WeeklyStats.pointsScored DESC;
 - Foreign key constraints are enforced to maintain referential integrity
 - The data model was designed to be scalable across multiple seasons by including `seasonYear` in the Leagues table
 - `captainID` in the Players table is a self-referencing foreign key allowing designation of a team captain
+- `nflTeam` in the Players table stores the real NFL franchise name as a text label (e.g., 'Chiefs', 'Eagles') for easy reference in queries
