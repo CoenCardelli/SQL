@@ -170,7 +170,16 @@ ORDER BY avgPoints DESC
 LIMIT 5;
 ```
 
-**Result:** (paste query output here)
+**Result:** + --------------- + ------------- + -------------- +
+| playerName      | position      | avgPoints      |
++ --------------- + ------------- + -------------- +
+| Christian McCaffrey | RB            | 43.5000        |
+| Josh Allen      | QB            | 32.1000        |
+| Lamar Jackson   | QB            | 30.4000        |
+| Patrick Mahomes | QB            | 29.9000        |
+| CeeDee Lamb     | WR            | 29.4000        |
++ --------------- + ------------- + -------------- +
+5 rows
 
 ---
 
@@ -193,7 +202,17 @@ HAVING COUNT(Transactions.transactionID) > 3
 ORDER BY totalTransactions DESC;
 ```
 
-**Result:** (paste query output here)
+**Result:** + ------------- + -------------- + ------------- + ---------------------- +
+| teamName      | firstName      | lastName      | totalTransactions      |
++ ------------- + -------------- + ------------- + ---------------------- +
+| End Zone Empire | Sofia          | Nguyen        | 5                      |
+| Blitz Brigade | James          | Carter        | 4                      |
+| Pocket Passers | Marcus         | Williams      | 4                      |
+| Red Zone Raiders | Priya          | Patel         | 4                      |
+| Hail Mary Heroes | Derek          | Johnson       | 4                      |
++ ------------- + -------------- + ------------- + ---------------------- +
+5 rows
+
 
 ---
 
@@ -220,7 +239,26 @@ HAVING AVG(WeeklyStats.pointsScored) < (
 ORDER BY avgPoints ASC;
 ```
 
-**Result:** (paste query output here)
+**Result:** 
++ --------------- + ------------- + ------------- + -------------- +
+| playerName      | position      | teamName      | avgPoints      |
++ --------------- + ------------- + ------------- + -------------- +
+| Gus Edwards     | RB            | Red Zone Raiders | 8.4000         |
+| Gus Edwards     | RB            | Hail Mary Heroes | 8.4000         |
+| Dalton Kincaid  | TE            | Pocket Passers | 10.0000        |
+| Dalton Kincaid  | TE            | Fourth & Forever | 10.0000        |
+| Amari Cooper    | WR            | End Zone Empire | 12.2000        |
+| Amari Cooper    | WR            | Snap Judgments | 12.2000        |
+| Sam LaPorta     | TE            | Blitz Brigade | 12.3000        |
+| Tony Pollard    | RB            | Blitz Brigade | 13.2000        |
+| Tony Pollard    | RB            | Sack Pack     | 13.2000        |
+| Breece Hall     | RB            | Red Zone Raiders | 16.0000        |
+| Stefon Diggs    | WR            | Hail Mary Heroes | 17.1000        |
+| Mark Andrews    | TE            | Fourth & Forever | 18.3000        |
+| Derrick Henry   | RB            | Snap Judgments | 20.9000        |
+| Davante Adams   | WR            | End Zone Empire | 22.1000        |
++ --------------- + ------------- + ------------- + -------------- +
+14 rows
 
 ---
 
@@ -242,7 +280,19 @@ GROUP BY Teams.teamID, Teams.teamName
 ORDER BY totalPoints DESC;
 ```
 
-**Result:** (paste query output here)
+**Result:** + ------------- + ---------------- +
+| teamName      | totalPoints      |
++ ------------- + ---------------- +
+| Blitz Brigade | 77               |
+| Pocket Passers | 76               |
+| End Zone Empire | 73               |
+| Snap Judgments | 71               |
+| Sack Pack     | 63               |
+| Hail Mary Heroes | 59               |
+| Fourth & Forever | 58               |
+| Red Zone Raiders | 46               |
++ ------------- + ---------------- +
+8 rows
 
 ---
 
@@ -266,7 +316,15 @@ WHERE NOT EXISTS (
 );
 ```
 
-**Result:** (paste query output here)
+**Result:** + ------------- + -------------- + ------------- + ---------- +
+| teamName      | firstName      | lastName      | email      |
++ ------------- + -------------- + ------------- + ---------- +
+| Double Trouble | James          | Carter        | jcarter@email.com |
+| Second Season | Sofia          | Nguyen        | snguyen@email.com |
+| Snap Judgments | Tyler          | Brooks        | tbrooks@email.com |
+| Sack Pack     | Hannah         | Scott         | hscott@email.com |
++ ------------- + -------------- + ------------- + ---------- +
+4 rows
 
 ---
 
@@ -300,7 +358,20 @@ GROUP BY Teams.teamID, Teams.teamName
 ORDER BY wins DESC;
 ```
 
-**Result:** (paste query output here)
+**Result:** + ------------- + --------- + ----------- +
+| teamName      | wins      | losses      |
++ ------------- + --------- + ----------- +
+| Blitz Brigade | 5         | 0           |
+| Sack Pack     | 5         | 0           |
+| End Zone Empire | 4         | 1           |
+| Red Zone Raiders | 2         | 3           |
+| Hail Mary Heroes | 2         | 3           |
+| Pocket Passers | 1         | 4           |
+| Snap Judgments | 1         | 4           |
+| Fourth & Forever | 0         | 5           |
++ ------------- + --------- + ----------- +
+8 rows
+
 
 ---
 
@@ -321,7 +392,15 @@ HAVING AVG(WeeklyStats.pointsScored) > 5
 ORDER BY DraftPicks.roundNumber ASC;
 ```
 
-**Result:** (paste query output here)
+**Result:** + ---------------- + ------------------- + ---------------------- +
+| roundNumber      | playersDrafted      | avgPointsPerRound      |
++ ---------------- + ------------------- + ---------------------- +
+| 1                | 8                   | 30.5000                |
+| 2                | 8                   | 19.6500                |
+| 3                | 4                   | 10.9500                |
++ ---------------- + ------------------- + ---------------------- +
+3 rows
+
 
 ---
 
@@ -343,7 +422,31 @@ GROUP BY Players.playerID, Players.playerName, Players.position
 ORDER BY Players.position, avgPoints DESC;
 ```
 
-**Result:** (paste query output here)
+**Result:** + --------------- + ------------- + -------------- +
+| playerName      | position      | avgPoints      |
++ --------------- + ------------- + -------------- +
+| Josh Allen      | QB            | 32.1000        |
+| Lamar Jackson   | QB            | 30.4000        |
+| Patrick Mahomes | QB            | 29.9000        |
+| Dak Prescott    | QB            | 23.5000        |
+| Christian McCaffrey | RB            | 43.5000        |
+| Saquon Barkley  | RB            | 27.0000        |
+| Derrick Henry   | RB            | 20.9000        |
+| Breece Hall     | RB            | 16.0000        |
+| Tony Pollard    | RB            | 13.2000        |
+| Gus Edwards     | RB            | 8.4000         |
+| Travis Kelce    | TE            | 22.8000        |
+| Mark Andrews    | TE            | 18.3000        |
+| Sam LaPorta     | TE            | 12.3000        |
+| Dalton Kincaid  | TE            | 10.0000        |
+| CeeDee Lamb     | WR            | 29.4000        |
+| Tyreek Hill     | WR            | 28.1000        |
+| Justin Jefferson | WR            | 27.8000        |
+| Davante Adams   | WR            | 22.1000        |
+| Stefon Diggs    | WR            | 17.1000        |
+| Amari Cooper    | WR            | 12.2000        |
++ --------------- + ------------- + -------------- +
+20 rows
 
 ---
 
@@ -366,7 +469,13 @@ HAVING COUNT(Teams.teamID) > 1
 ORDER BY numberOfTeams DESC;
 ```
 
-**Result:** (paste query output here)
+**Result:** + ----------- + -------------- + ------------- + ---------- + ------------------ +
+| userID      | firstName      | lastName      | email      | numberOfTeams      |
++ ----------- + -------------- + ------------- + ---------- + ------------------ +
+| 1           | James          | Carter        | jcarter@email.com | 2                  |
+| 2           | Sofia          | Nguyen        | snguyen@email.com | 2                  |
++ ----------- + -------------- + ------------- + ---------- + ------------------ +
+2 rows
 
 ---
 
@@ -395,7 +504,22 @@ AND WeeklyStats.pointsScored > (
 ORDER BY WeeklyStats.pointsScored DESC;
 ```
 
-**Result:** (paste query output here)
+**Result:** + --------------- + ------------- + --------------- + --------------------- +
+| playerName      | position      | weekNumber      | latestWeekPoints      |
++ --------------- + ------------- + --------------- + --------------------- +
+| Josh Allen      | QB            | 10              | 36                    |
+| CeeDee Lamb     | WR            | 10              | 36                    |
+| Lamar Jackson   | QB            | 10              | 34                    |
+| Saquon Barkley  | RB            | 10              | 33                    |
+| Patrick Mahomes | QB            | 10              | 30                    |
+| Davante Adams   | WR            | 10              | 28                    |
+| Dak Prescott    | QB            | 10              | 26                    |
+| Mark Andrews    | TE            | 10              | 21                    |
+| Stefon Diggs    | WR            | 10              | 19                    |
+| Sam LaPorta     | TE            | 10              | 15                    |
+| Dalton Kincaid  | TE            | 10              | 12                    |
++ --------------- + ------------- + --------------- + --------------------- +
+11 rows
 
 ---
 
