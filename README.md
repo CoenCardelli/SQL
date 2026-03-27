@@ -170,7 +170,9 @@ ORDER BY avgPoints DESC
 LIMIT 5;
 ```
 
-**Result:** + --------------- + ------------- + -------------- +
+**Result:**
+```
++ --------------- + ------------- + -------------- +
 | playerName      | position      | avgPoints      |
 + --------------- + ------------- + -------------- +
 | Christian McCaffrey | RB            | 43.5000        |
@@ -180,7 +182,7 @@ LIMIT 5;
 | CeeDee Lamb     | WR            | 29.4000        |
 + --------------- + ------------- + -------------- +
 5 rows
-
+```
 ---
 
 ### Q2 — Teams with More Than 3 Transactions in a Season
@@ -202,7 +204,9 @@ HAVING COUNT(Transactions.transactionID) > 3
 ORDER BY totalTransactions DESC;
 ```
 
-**Result:** + ------------- + -------------- + ------------- + ---------------------- +
+**Result:**
+```
++ ------------- + -------------- + ------------- + ---------------------- +
 | teamName      | firstName      | lastName      | totalTransactions      |
 + ------------- + -------------- + ------------- + ---------------------- +
 | End Zone Empire | Sofia          | Nguyen        | 5                      |
@@ -212,7 +216,7 @@ ORDER BY totalTransactions DESC;
 | Hail Mary Heroes | Derek          | Johnson       | 4                      |
 + ------------- + -------------- + ------------- + ---------------------- +
 5 rows
-
+```
 
 ---
 
@@ -240,6 +244,7 @@ ORDER BY avgPoints ASC;
 ```
 
 **Result:** 
+```
 + --------------- + ------------- + ------------- + -------------- +
 | playerName      | position      | teamName      | avgPoints      |
 + --------------- + ------------- + ------------- + -------------- +
@@ -259,7 +264,7 @@ ORDER BY avgPoints ASC;
 | Davante Adams   | WR            | End Zone Empire | 22.1000        |
 + --------------- + ------------- + ------------- + -------------- +
 14 rows
-
+```
 ---
 
 ### Q4 — Weekly Points Scored by Each Team for a Specific Week
@@ -280,7 +285,9 @@ GROUP BY Teams.teamID, Teams.teamName
 ORDER BY totalPoints DESC;
 ```
 
-**Result:** + ------------- + ---------------- +
+**Result:**
+```
++ ------------- + ---------------- +
 | teamName      | totalPoints      |
 + ------------- + ---------------- +
 | Blitz Brigade | 77               |
@@ -293,7 +300,7 @@ ORDER BY totalPoints DESC;
 | Red Zone Raiders | 46               |
 + ------------- + ---------------- +
 8 rows
-
+```
 ---
 
 ### Q5 — Teams That Have Never Made a Transaction
@@ -316,7 +323,9 @@ WHERE NOT EXISTS (
 );
 ```
 
-**Result:** + ------------- + -------------- + ------------- + ---------- +
+**Result:**
+```
++ ------------- + -------------- + ------------- + ---------- +
 | teamName      | firstName      | lastName      | email      |
 + ------------- + -------------- + ------------- + ---------- +
 | Double Trouble | James          | Carter        | jcarter@email.com |
@@ -325,6 +334,7 @@ WHERE NOT EXISTS (
 | Sack Pack     | Hannah         | Scott         | hscott@email.com |
 + ------------- + -------------- + ------------- + ---------- +
 4 rows
+```
 
 ---
 
@@ -358,7 +368,9 @@ GROUP BY Teams.teamID, Teams.teamName
 ORDER BY wins DESC;
 ```
 
-**Result:** + ------------- + --------- + ----------- +
+**Result:**
+```
++ ------------- + --------- + ----------- +
 | teamName      | wins      | losses      |
 + ------------- + --------- + ----------- +
 | Blitz Brigade | 5         | 0           |
@@ -371,7 +383,7 @@ ORDER BY wins DESC;
 | Fourth & Forever | 0         | 5           |
 + ------------- + --------- + ----------- +
 8 rows
-
+```
 
 ---
 
@@ -392,7 +404,9 @@ HAVING AVG(WeeklyStats.pointsScored) > 5
 ORDER BY DraftPicks.roundNumber ASC;
 ```
 
-**Result:** + ---------------- + ------------------- + ---------------------- +
+**Result:**
+```
++ ---------------- + ------------------- + ---------------------- +
 | roundNumber      | playersDrafted      | avgPointsPerRound      |
 + ---------------- + ------------------- + ---------------------- +
 | 1                | 8                   | 30.5000                |
@@ -400,7 +414,7 @@ ORDER BY DraftPicks.roundNumber ASC;
 | 3                | 4                   | 10.9500                |
 + ---------------- + ------------------- + ---------------------- +
 3 rows
-
+```
 
 ---
 
@@ -422,7 +436,9 @@ GROUP BY Players.playerID, Players.playerName, Players.position
 ORDER BY Players.position, avgPoints DESC;
 ```
 
-**Result:** + --------------- + ------------- + -------------- +
+**Result:**
+```
++ --------------- + ------------- + -------------- +
 | playerName      | position      | avgPoints      |
 + --------------- + ------------- + -------------- +
 | Josh Allen      | QB            | 32.1000        |
@@ -447,7 +463,7 @@ ORDER BY Players.position, avgPoints DESC;
 | Amari Cooper    | WR            | 12.2000        |
 + --------------- + ------------- + -------------- +
 20 rows
-
+```
 ---
 
 ### Q9 — Users Who Manage Teams in Multiple Leagues
@@ -469,14 +485,16 @@ HAVING COUNT(Teams.teamID) > 1
 ORDER BY numberOfTeams DESC;
 ```
 
-**Result:** + ----------- + -------------- + ------------- + ---------- + ------------------ +
+**Result:**
+```
++ ----------- + -------------- + ------------- + ---------- + ------------------ +
 | userID      | firstName      | lastName      | email      | numberOfTeams      |
 + ----------- + -------------- + ------------- + ---------- + ------------------ +
 | 1           | James          | Carter        | jcarter@email.com | 2                  |
 | 2           | Sofia          | Nguyen        | snguyen@email.com | 2                  |
 + ----------- + -------------- + ------------- + ---------- + ------------------ +
 2 rows
-
+```
 ---
 
 ### Q10 — Players Outperforming Their Own Season Average in the Latest Week
@@ -504,7 +522,9 @@ AND WeeklyStats.pointsScored > (
 ORDER BY WeeklyStats.pointsScored DESC;
 ```
 
-**Result:** + --------------- + ------------- + --------------- + --------------------- +
+**Result:** 
+```
++ --------------- + ------------- + --------------- + --------------------- +
 | playerName      | position      | weekNumber      | latestWeekPoints      |
 + --------------- + ------------- + --------------- + --------------------- +
 | Josh Allen      | QB            | 10              | 36                    |
@@ -520,7 +540,7 @@ ORDER BY WeeklyStats.pointsScored DESC;
 | Dalton Kincaid  | TE            | 10              | 12                    |
 + --------------- + ------------- + --------------- + --------------------- +
 11 rows
-
+```
 ---
 
 ## Database Information
