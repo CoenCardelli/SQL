@@ -26,7 +26,6 @@ The database supports tracking of league activity, draft history, player perform
 
 ![Data Model Diagram](data_model.png)
 
-> **Note:** Replace `data_model.png` with your actual ER diagram image uploaded to this repo.
 
 ### Explanation of the Data Model
 
