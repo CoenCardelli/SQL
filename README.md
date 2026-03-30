@@ -92,7 +92,6 @@ The database supports tracking of league activity, draft history, player perform
 | playerID | INT | PK | Unique identifier for each NFL player |
 | playerName | VARCHAR(45) | | Full name of the NFL player |
 | position | VARCHAR(45) | | Player's position (QB, RB, WR, TE, K, DEF) |
-| nflTeam | VARCHAR(45) | | The real NFL franchise the player plays for (e.g., 'Chiefs') |
 | teamID | INT | FK (Teams) | The fantasy team the player is rostered on |
 | captainID | INT | FK (Players) | Self-referencing key to designate a captain relationship |
 
