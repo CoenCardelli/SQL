@@ -9,7 +9,7 @@
 | Elher Zemihret | [Link to GitHub] |
 | Allison Davis | https://github.com/AllisonDavis149/GP1?tab=readme-ov-file#gp1 |
 | Coen Cardelli | https://github.com/CoenCardelli/SQL |
-| Charlotte Holzapfel | [Link to GitHub] |
+| Charlotte Holzapfel | https://github.com/charlotteholzapfel/Group-Project-1 |
 
 ---
 
