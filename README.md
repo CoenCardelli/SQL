@@ -29,21 +29,35 @@ The database supports tracking of league activity, draft history, player perform
 
 ### Explanation of the Data Model
 
-**Leagues** sits at the top of the hierarchy. A league has many Teams, but each Team belongs to exactly one League (1:M). A league is identified by a unique `leagueID` and stores the league name and season year.
 
-**Users** represents any person participating in the platform. A single User can manage multiple Teams across different leagues (1:M). Users are identified by `userID` and store basic contact info (name, email).
-
-**Teams** is the central entity — it connects a User to a League via foreign keys `userID` and `leagueID`. Each Team participates in many Games, initiates many Transactions, and makes many DraftPicks (all 1:M).
-
-**Players** represents a real NFL athlete. A Player can appear in many WeeklyStats records (one per week), many DraftPicks (across different leagues/seasons), and many Transactions (all 1:M). Players also have a `teamID` (FK to Teams), an `nflTeam` text label storing the real NFL franchise name (e.g., "Chiefs"), and a self-referencing `captainID` that can designate a team captain relationship.
-
-**WeeklyStats** captures a Player's fantasy points for a specific week. Each record is tied to one Player and one week number, and stores `pointsScored`.
 
 **DraftPicks** records which Team selected which Player, in what round and pick number. It links Team and Player (M:1 to each).
 
+
 **Games** records a head-to-head matchup between two Teams for a given week, storing the score for each side and the winner. The `homeTeamID`, `awayTeamID`, and `winnerTeamID` are all foreign keys back to Teams.
 
+
+**Leagues** sits at the top of the hierarchy. A league has many Teams, but each Team belongs to exactly one League (1:M). A league is identified by a unique `leagueID` and stores the league name and season year.
+
+
+**Players** represents a real NFL athlete. A Player can appear in many WeeklyStats records (one per week), many DraftPicks (across different leagues/seasons), and many Transactions (all 1:M). Players also have a `teamID` (FK to Teams), an `nflTeam` text label storing the real NFL franchise name (e.g., "Chiefs"), and a self-referencing `captainID` that can designate a team captain relationship.
+
+
+**Teams** is the central entity — it connects a User to a League via foreign keys `userID` and `leagueID`. Each Team participates in many Games, initiates many Transactions, and makes many DraftPicks (all 1:M).
+
+
 **Transactions** logs adds, drops, or trades. Each transaction is tied to a Team and a Player, along with the type and the week it occurred.
+
+
+**Users** represents any person participating in the platform. A single User can manage multiple Teams across different leagues (1:M). Users are identified by `userID` and store basic contact info (name, email).
+
+
+**WeeklyStats** captures a Player's fantasy points for a specific week. Each record is tied to one Player and one week number, and stores `pointsScored`.
+
+
+
+
+
 
 ### What the database supports:
 - Tracking users, teams, leagues, and seasons
