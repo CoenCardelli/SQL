@@ -63,8 +63,6 @@ The database supports tracking of league activity, draft history, player perform
 
 ## Data Dictionary
 
-> Tables are listed in alphabetical order. Attributes appear in the same order as the data model, with PKs first. All column names match the data model exactly.
-
 ---
 
 ### DraftPicks
