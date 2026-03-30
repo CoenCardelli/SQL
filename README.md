@@ -554,4 +554,3 @@ ORDER BY WeeklyStats.pointsScored DESC;
 - Foreign key constraints are enforced to maintain referential integrity
 - The data model was designed to be scalable across multiple seasons by including `seasonYear` in the Leagues table
 - `captainID` in the Players table is a self-referencing foreign key allowing designation of a team captain
-- `nflTeam` in the Players table stores the real NFL franchise name as a text label (e.g., 'Chiefs', 'Eagles') for easy reference in queries
