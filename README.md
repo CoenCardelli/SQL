@@ -69,11 +69,11 @@ The database supports tracking of league activity, draft history, player perform
 
 | Column Name | Description | Data Type | Size | Format | Key? |
 | --- | --- | --- | --- | --- | --- |
-| pickID | Unique sequential number identifying each draft pick | Numeric | 2 | | PK |
-| roundNumber | The round number within the draft in which the pick was made (e.g., 1–15) | Numeric | 1 | | |
-| pickNumber | The overall pick number within the draft | Numeric | 1 | | |
-| playerID | Indicates the player who was selected with this pick | Numeric | 2 | | FK (ref. Players) |
-| teamID | Indicates the fantasy team that made this draft pick | Numeric | 2 | | FK (ref. Teams) |
+| pickID | Unique sequential number identifying each draft pick | Numeric/INT | 2 | | PK |
+| roundNumber | The round number within the draft in which the pick was made (e.g., 1–15) | Numeric/INT | 1 | | |
+| pickNumber | The overall pick number within the draft | Numeric/INT | 1 | | |
+| playerID | Indicates the player who was selected with this pick | Numeric/INT | 2 | | FK (ref. Players) |
+| teamID | Indicates the fantasy team that made this draft pick | Numeric/INT | 2 | | FK (ref. Teams) |
 
 ---
 
@@ -81,14 +81,14 @@ The database supports tracking of league activity, draft history, player perform
 
 | Column Name | Description | Data Type | Size | Format | Key? |
 | --- | --- | --- | --- | --- | --- |
-| gameID | Unique sequential number identifying each game | Numeric | 2 | | PK |
-| weekNumber | The NFL week number during which the game was played (1–18) | Numeric | 2 | | |
-| homeTeamID | Indicates the home team participating in the matchup | Numeric | 1 | | FK (ref. Teams) |
-| awayTeamID | Indicates the away team participating in the matchup | Numeric | 1 | | FK (ref. Teams) |
-| homeScore | Total fantasy points scored by the home team during the game | Numeric | 3 | | |
-| awayScore | Total fantasy points scored by the away team during the game | Numeric | 3 | | |
-| leagueID | Indicates the league in which the game was played | Numeric | 1 | | FK (ref. Leagues) |
-| winnerTeamID | Indicates the team that won the game | Numeric | 1 | | FK (ref. Teams) |
+| gameID | Unique sequential number identifying each game | Numeric/INT | 2 | | PK |
+| weekNumber | The NFL week number during which the game was played (1–18) | Numeric/INT | 2 | | |
+| homeTeamID | Indicates the home team participating in the matchup | Numeric/INT | 1 | | FK (ref. Teams) |
+| awayTeamID | Indicates the away team participating in the matchup | Numeric/INT | 1 | | FK (ref. Teams) |
+| homeScore | Total fantasy points scored by the home team during the game | Numeric/INT | 3 | | |
+| awayScore | Total fantasy points scored by the away team during the game | Numeric/INT | 3 | | |
+| leagueID | Indicates the league in which the game was played | Numeric/INT | 1 | | FK (ref. Leagues) |
+| winnerTeamID | Indicates the team that won the game | Numeric/INT | 1 | | FK (ref. Teams) |
 
 ---
 
@@ -96,7 +96,7 @@ The database supports tracking of league activity, draft history, player perform
 
 | Column Name | Description | Data Type | Size | Format | Key? |
 | --- | --- | --- | --- | --- | --- |
-| leagueID | Unique sequential number identifying each fantasy league | Numeric | 1 | | PK |
+| leagueID | Unique sequential number identifying each fantasy league | Numeric/INT | 1 | | PK |
 | leagueName | The name given to the fantasy football league | Text | 45 | | |
 | seasonYear | The NFL season year the league is associated with | Text | 4 | 9999 | |
 
@@ -106,11 +106,11 @@ The database supports tracking of league activity, draft history, player perform
 
 | Column Name | Description | Data Type | Size | Format | Key? |
 | --- | --- | --- | --- | --- | --- |
-| playerID | Unique sequential number identifying each NFL player | Numeric | 2 | | PK |
+| playerID | Unique sequential number identifying each NFL player | Numeric/INT | 2 | | PK |
 | playerName | The full name of the real NFL player | Text | 45 | | |
 | position | The player's position on the field (QB, RB, WR, TE, K, DEF) | Text | 45 | | |
-| teamID | Indicates the fantasy team the player is currently rostered on | Numeric | 1 | | FK (ref. Teams) |
-| captainID | Indicates the player designated as team captain; references itself | Numeric | | | FK (ref. Players) |
+| teamID | Indicates the fantasy team the player is currently rostered on | Numeric/INT | 1 | | FK (ref. Teams) |
+| captainID | Indicates the player designated as team captain; references itself | Numeric/INT | | | FK (ref. Players) |
 
 ---
 
@@ -118,10 +118,10 @@ The database supports tracking of league activity, draft history, player perform
 
 | Column Name | Description | Data Type | Size | Format | Key? |
 | --- | --- | --- | --- | --- | --- |
-| teamID | Unique sequential number identifying each fantasy team | Numeric | 2 | | PK |
+| teamID | Unique sequential number identifying each fantasy team | Numeric/INT | 2 | | PK |
 | teamName | The name given to the fantasy football team | Text | 45 | | |
-| userID | Indicates the user who owns and manages this team | Numeric | 1 | | FK (ref. Users) |
-| leagueID | Indicates the league that this team belongs to | Numeric | 1 | | FK (ref. Leagues) |
+| userID | Indicates the user who owns and manages this team | Numeric/INT | 1 | | FK (ref. Users) |
+| leagueID | Indicates the league that this team belongs to | Numeric/INT | 1 | | FK (ref. Leagues) |
 
 ---
 
@@ -129,11 +129,11 @@ The database supports tracking of league activity, draft history, player perform
 
 | Column Name | Description | Data Type | Size | Format | Key? |
 | --- | --- | --- | --- | --- | --- |
-| transactionID | Unique sequential number identifying each roster transaction | Numeric | 2 | | PK |
+| transactionID | Unique sequential number identifying each roster transaction | Numeric/INT | 2 | | PK |
 | transactionType | The type of transaction performed on the roster: ADD, DROP, or TRADE | Text | 45 | | |
-| weekNumber | The NFL week number during which the transaction occurred | Numeric | 1 | | |
-| teamID | Indicates the team that initiated the transaction | Numeric | 1 | | FK (ref. Teams) |
-| playerID | Indicates the player involved in the transaction | Numeric | 2 | | FK (ref. Players) |
+| weekNumber | The NFL week number during which the transaction occurred | Numeric/INT | 1 | | |
+| teamID | Indicates the team that initiated the transaction | Numeric/INT | 1 | | FK (ref. Teams) |
+| playerID | Indicates the player involved in the transaction | Numeric/INT | 2 | | FK (ref. Players) |
 
 ---
 
@@ -141,7 +141,7 @@ The database supports tracking of league activity, draft history, player perform
 
 | Column Name | Description | Data Type | Size | Format | Key? |
 | --- | --- | --- | --- | --- | --- |
-| userID | Unique sequential number identifying each platform user | Numeric | 1 | | PK |
+| userID | Unique sequential number identifying each platform user | Numeric/INT | 1 | | PK |
 | firstName | The first name of the user | Text | 45 | | |
 | lastName | The last name of the user | Text | 45 | | |
 | email | The email address of the user | Text | 45 | aaaaaaaaa@aaaaa.aaa | |
@@ -152,10 +152,10 @@ The database supports tracking of league activity, draft history, player perform
 
 | Column Name | Description | Data Type | Size | Format | Key? |
 | --- | --- | --- | --- | --- | --- |
-| statsID | Unique sequential number identifying each weekly stats record | Numeric | 3 | | PK |
-| weekNumber | The NFL week number the stats were recorded for (1–18) | Numeric | 2 | | |
-| pointsScored | The total fantasy points the player scored during that week | Numeric | 2  | | |
-| playerID | Indicates the player that these weekly stats belong to | Numeric | 2 | | FK (ref. Players) |
+| statsID | Unique sequential number identifying each weekly stats record | Numeric/INT | 3 | | PK |
+| weekNumber | The NFL week number the stats were recorded for (1–18) | Numeric/INT | 2 | | |
+| pointsScored | The total fantasy points the player scored during that week | Numeric/INT | 2  | | |
+| playerID | Indicates the player that these weekly stats belong to | Numeric/INT | 2 | | FK (ref. Players) |
 
 ---
 
