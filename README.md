@@ -83,11 +83,11 @@ The database supports tracking of league activity, draft history, player perform
 
 | Column Name | Description | Data Type | Size | Format | Key? |
 | --- | --- | --- | --- | --- | --- |
-| pickID | Unique sequential number identifying each draft pick | Numeric | | | PK |
-| roundNumber | The round number within the draft in which the pick was made (e.g., 1–15) | Numeric | | | |
-| pickNumber | The overall pick number within the draft | Numeric | | | |
-| playerID | Indicates the player who was selected with this pick | Numeric | | | FK (ref. Players) |
-| teamID | Indicates the fantasy team that made this draft pick | Numeric | | | FK (ref. Teams) |
+| pickID | Unique sequential number identifying each draft pick | INT | | | PK |
+| roundNumber | The round number within the draft in which the pick was made (e.g., 1–15) | INT | | | |
+| pickNumber | The overall pick number within the draft | INT | | | |
+| playerID | Indicates the player who was selected with this pick | INT | | | FK (ref. Players) |
+| teamID | Indicates the fantasy team that made this draft pick | INT | | | FK (ref. Teams) |
 
 ---
 
