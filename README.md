@@ -191,7 +191,7 @@ The database supports tracking of league activity, draft history, player perform
 
 ---
 
-### Q1 — Top 5 Players by Average Weekly Points
+### Q1 — Top 5 Players by Average Weekly Points (Simple)
 
 **Description:** Retrieve the top 5 NFL players ranked by their average fantasy points scored per week.
 
@@ -224,7 +224,7 @@ LIMIT 5;
 
 ---
 
-### Q2 — Teams with More Than 3 Transactions in a Season
+### Q2 — Teams with More Than 3 Transactions in a Season (Complex)
 
 **Description:** Find all fantasy teams that have made more than 3 transactions (adds, drops, or trades) within a league.
 
@@ -260,7 +260,7 @@ ORDER BY totalTransactions DESC;
 
 ---
 
-### Q3 — Players Drafted Who Scored Below League Average
+### Q3 — Players Drafted Who Scored Below League Average (Complex)
 
 **Description:** Identify drafted players whose average weekly points fall below the overall league average for all players.
 
@@ -309,7 +309,7 @@ ORDER BY avgPoints ASC;
 
 ---
 
-### Q4 — Weekly Points Scored by Each Team for a Specific Week
+### Q4 — Weekly Points Scored by Each Team for a Specific Week (Simple)
 
 **Description:** Show the total fantasy points scored by each team during a given week (e.g., Week 5).
 
@@ -347,7 +347,7 @@ ORDER BY totalPoints DESC;
 
 ---
 
-### Q5 — Teams That Have Never Made a Transaction
+### Q5 — Teams That Have Never Made a Transaction (Simple)
 
 **Description:** Find all teams that have not made any adds, drops, or trades during the season.
 
@@ -383,7 +383,7 @@ WHERE NOT EXISTS (
 
 ---
 
-### Q6 — League Standings Based on Win/Loss Record
+### Q6 — League Standings Based on Win/Loss Record (Complex)
 
 **Description:** Calculate each team's wins and losses across all games within a league and sort by wins descending.
 
@@ -433,7 +433,7 @@ ORDER BY wins DESC;
 
 ---
 
-### Q7 — Draft Round Efficiency: Average Points by Round
+### Q7 — Draft Round Efficiency: Average Points by Round (Complex)
 
 **Description:** Calculate the average fantasy points scored by players grouped by the draft round in which they were selected.
 
@@ -465,7 +465,7 @@ ORDER BY DraftPicks.roundNumber ASC;
 
 ---
 
-### Q8 — Find Players at Skill Positions (QB, RB, WR, TE) Using REGEXP
+### Q8 — Find Players at Skill Positions (QB, RB, WR, TE) Using REGEXP (Complex)
 
 **Description:** Retrieve all players whose position matches one of the four primary skill positions using a regular expression pattern.
 
@@ -515,7 +515,7 @@ ORDER BY Players.position, avgPoints DESC;
 
 ---
 
-### Q9 — Users Who Manage Teams in Multiple Leagues
+### Q9 — Users Who Manage Teams in Multiple Leagues (Simple)
 
 **Description:** Find users who are participating in more than one fantasy league simultaneously.
 
@@ -548,7 +548,7 @@ ORDER BY numberOfTeams DESC;
 
 ---
 
-### Q10 — Players Outperforming Their Own Season Average in the Latest Week
+### Q10 — Players Outperforming Their Own Season Average in the Latest Week (Complex)
 
 **Description:** Use a correlated subquery to find players whose most recent week's score exceeds their own personal season average.
 
